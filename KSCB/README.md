@@ -1,3 +1,7 @@
+<p align="right">
+  <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a>
+</p>
+
 # KS Card Benchmark (KSCB)
 
 KSCB is the human game-trajectory dataset introduced with CardKS. It contains GuanDan promotion matches and complete three-player DouDizhu games. Each record preserves gameplay events in their original order together with the terminal result.
