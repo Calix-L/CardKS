@@ -1,16 +1,15 @@
 # KS Card Benchmark (KSCB)
 
-KSCB is the replay-validated human decision benchmark used by CardKS.
+KSCB provides source-derived, deidentified human game trajectories for GuanDan and DouDizhu.
 
-## Public deidentified sample
+## Data
 
-[`data/`](./data) contains deterministic samples from the benchmark reported in the paper appendix:
+- `data/guandan_matches.jsonl.gz`: 1,305 complete promotion matches containing 14,823 rounds.
+- `data/guandan_rounds.jsonl.gz`: 14,878 completed, deduplicated rounds.
+- `data/doudizhu_games.jsonl.gz`: 947 complete three-player games.
+- `data/manifest.json`: source criteria, counts, and file hashes.
+- `data/audit.json`: full-file privacy, structure, result, winner, count, and hash checks.
 
-- `kscb_guandan_promotion_matches_5pct.jsonl`: 44 promotion matches containing 508 rounds.
-- `kscb_guandan_replay_valid_rounds_5pct.jsonl`: 536 replay-validated rounds.
-- `kscb_doudizhu_games_5pct.jsonl`: 47 complete three-player games.
-- `kscb_sample_manifest.json`: sample counts, hashes, selection rules, and deidentification notes.
+The two GuanDan files are overlapping views and must not be added together. These are the complete source-derived units that satisfy the stated criteria, not a reconstruction of a separately normalized paper target. The GuanDan round view is completion-qualified and is not labeled rule-engine replay-valid.
 
-These are approximately 5% public samples, not the full KSCB collections (899 GuanDan promotion matches, 10,738 replay-valid GuanDan rounds, and 947 complete DouDizhu games). Ordered gameplay events and terminal outcomes are preserved. Player identifiers use trajectory-local aliases, while identifying, account, company/platform, room/table/replay, absolute-time, device/network/location, chat, and media fields are removed.
-
-Raw logs and identity mappings are not released.
+Ordered events and terminal outcomes are preserved. Player and record identifiers use release-local aliases; profile, account, company/platform, replay/room/table, absolute-time, device/network/location, chat, media, balance, and related fields are removed. Raw logs and identity mappings are not released.

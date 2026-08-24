@@ -1,0 +1,117 @@
+{
+  "audit": {
+    "file": "audit.json",
+    "sha256": "1b712fb886230706b4c406c1b92ecd600de0e7af7c666cf2ed833671ec231649",
+    "status": "PASS"
+  },
+  "builder": {
+    "identifier": "cardks-kscb-deidentification-builder-v3",
+    "reuse": "deidentification, aliasing, materialization, and validation functions",
+    "sha256": "b628f4924ed8aaf8844238ac2a41dc2ac4477b54c477ce66127084a8f5aa4b13"
+  },
+  "datasets": [
+    {
+      "compressed_bytes": 17724210,
+      "compression": "gzip",
+      "contained_rounds": 14823,
+      "decisions": 1217604,
+      "events": 2509952,
+      "file": "guandan_matches.jsonl.gz",
+      "game": "GuanDan",
+      "records": 1305,
+      "selection_rule": "all deduplicated promotion matches for which every observed round has result_type=1",
+      "sha256": "72377a12553c85c2f3ecdc7fede553ef1382ac5465179606a623bc61f9648cfa",
+      "terminal_results": 14823,
+      "uncompressed_bytes": 343945664,
+      "uncompressed_sha256": "61415bcd3deeabd589cabb45a36e91cfb97c221589f16e7a25bb6c19d8eedb17",
+      "unit": "complete promotion match"
+    },
+    {
+      "compressed_bytes": 18990044,
+      "compression": "gzip",
+      "decisions": 1222259,
+      "events": 2518892,
+      "file": "guandan_rounds.jsonl.gz",
+      "game": "GuanDan",
+      "qualification_note": "completion-qualified source-derived rounds; not labeled as rule-engine replay-valid",
+      "records": 14878,
+      "selection_rule": "all deduplicated rounds with result_type=1",
+      "sha256": "0109d3121a8ddd6ac1aa2d577ef0ad430c9cf638209da0251247bd25b3894937",
+      "terminal_results": 14878,
+      "uncompressed_bytes": 344819866,
+      "uncompressed_sha256": "26f3542cda4606fb0f3513a4ccb14b0f672cfa3feb02b8765ea5f014e6e5cfde",
+      "unit": "completed deduplicated round"
+    },
+    {
+      "compressed_bytes": 234621,
+      "compression": "gzip",
+      "decisions": 28083,
+      "events": 33600,
+      "file": "doudizhu_games.jsonl.gz",
+      "game": "DouDizhu",
+      "records": 947,
+      "selection_rule": "all source records with exactly three players and result_type=1",
+      "sha256": "9a96746ad0aade51728d8ffb1a185d524d3061e3ffb9d431ffbe1f7f6c56763a",
+      "terminal_results": 947,
+      "uncompressed_bytes": 3916868,
+      "uncompressed_sha256": "0fc65918cbca39b0f93f97d64c0d65ae6598eede310503cd9a79d7983788b8ad",
+      "unit": "complete three-player game"
+    }
+  ],
+  "decision_events": {
+    "DouDizhu": "event_id 9 (play) and 10 (PASS)",
+    "GuanDan": "event_id 3 (play) and 4 (PASS)"
+  },
+  "deidentification": {
+    "player_identifiers": "trajectory-local aliases",
+    "preserved": [
+      "complete ordered event sequence",
+      "game-mechanics settings needed to interpret trajectories",
+      "seat relationships",
+      "terminal cards, finish order, and winner state without balances"
+    ],
+    "record_identifiers": "release-local aliases",
+    "removed": [
+      "source record, game, replay, room, table, desk, and club identifiers and session counters",
+      "player profile, demographic, avatar, host-account, contact, balance, and winnings fields",
+      "absolute timestamps and device, network, and location fields",
+      "company, product, platform, billing, and operational configuration",
+      "chat, free-text, and media fields"
+    ],
+    "validation": [
+      "identity fields contain only release aliases",
+      "generic event data values equal to trajectory actor IDs are aliased",
+      "serialized JSON containers recursively filtered",
+      "unapproved free text rejected",
+      "contact, network, URL, timestamp, and raw-ID patterns rejected"
+    ]
+  },
+  "release_scope": "source-derived deidentified trajectories; not the paper-normalized KSCB target collection",
+  "schema_version": "cardks.kscb-source-derived-release.v1",
+  "source_processing": {
+    "doudizhu_raw_records": 4989,
+    "guandan_deduplicated_rounds": 14896,
+    "guandan_distinct_replay_ids": 1323,
+    "guandan_raw_records": 15258,
+    "namespace": "cardks-kscb-source-derived-v1",
+    "ordering": "SHA-256 ordering over source keys; source keys are not released"
+  },
+  "sources": [
+    {
+      "raw_records": 5000,
+      "sha256": "41753027d054705a562acd84eaf8be1a832fe82e91e6a1eec1c3cc5d63c9af04",
+      "source_id": "guandan_export_1"
+    },
+    {
+      "raw_records": 10258,
+      "sha256": "d28742d09b3c0e7d635b7bc1705f8b1e59941c2c863464e2191d2116df497cf6",
+      "source_id": "guandan_export_2"
+    },
+    {
+      "member": "298.json",
+      "raw_records": 4989,
+      "sha256": "769495d971d5b30d3d9de7f546f91d32ebba71c75c6197c9a81709b3e50aa038",
+      "source_id": "doudizhu_export_archive"
+    }
+  ]
+}

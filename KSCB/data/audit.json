@@ -1,0 +1,44 @@
+{
+  "audit_passes": [
+    "generator recursive deidentification and structural validation",
+    "independent raw-identifier, blocked-key, alias, nested-JSON, text-pattern, hash, count, terminal, and winner scan",
+    "gzip decompression and manifest cross-check"
+  ],
+  "files": {
+    "doudizhu_games.jsonl.gz": {
+      "decisions": 28083,
+      "events": 33600,
+      "records": 947,
+      "terminal_results": 947,
+      "trajectories": 947,
+      "winner_indicators": 947
+    },
+    "guandan_matches.jsonl.gz": {
+      "decisions": 1217604,
+      "events": 2509952,
+      "records": 1305,
+      "terminal_results": 14823,
+      "trajectories": 14823,
+      "winner_indicators": 14823
+    },
+    "guandan_rounds.jsonl.gz": {
+      "decisions": 1222259,
+      "events": 2518892,
+      "records": 14878,
+      "terminal_results": 14878,
+      "trajectories": 14878,
+      "winner_indicators": 14878
+    }
+  },
+  "finding_counts": {},
+  "findings": [],
+  "raw_identifier_tokens_checked": 22887,
+  "schema_version": "cardks.kscb-source-derived-audit.v3",
+  "statistics": {
+    "keys_checked": 50612577,
+    "nested_json_checked": 30648,
+    "objects_checked": 15231870,
+    "values_checked": 89072675
+  },
+  "status": "PASS"
+}
