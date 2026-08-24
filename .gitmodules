@@ -1,0 +1,9 @@
+[submodule "DanKS"]
+	path = DanKS
+	url = https://github.com/Calix-L/DanKS.git
+[submodule "DouKS"]
+	path = DouKS
+	url = https://github.com/Calix-L/DouKS.git
+[submodule "RummyKS"]
+	path = RummyKS
+	url = https://github.com/Calix-L/RummyKS.git

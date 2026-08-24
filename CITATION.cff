@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use CardKS, please cite the paper. Final publication metadata will be added with the camera-ready release."
+title: "CardKS: Residual Key-Structure Modeling for Long-Horizon Decisions"
+type: software
+authors:
+  - name: "CardKS Contributors"
+repository-code: "https://github.com/Calix-L/CardKS"
+license: Apache-2.0

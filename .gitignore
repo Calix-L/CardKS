@@ -1,0 +1,19 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+tmp/
+
+# The manuscript source and private research artifacts are never committed.
+*.tex
+*.pdf
+*.ckpt
+*.onnx
+*.parquet
+*.pt
+*.pth
+*.safetensors
+checkpoints/
+datasets/
+outputs/
