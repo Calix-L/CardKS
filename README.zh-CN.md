@@ -29,7 +29,8 @@
 </p>
 
 <p align="center">
-  <img src="assets/cardks-framework.webp" alt="CardKS 的信息状态、结构化候选召回、Actor-Critic 与 PPO 自博弈框架" width="100%">
+  <a href="assets/cardks-framework.webp"><img src="assets/cardks-framework.webp" alt="CardKS 的信息状态、结构化候选召回、Actor-Critic 与 PPO 自博弈框架" width="960"></a><br>
+  <sub><strong>总体框架。</strong> 信息状态、结构感知召回、候选条件化 Actor-Critic 与 PPO 自博弈。</sub>
 </p>
 
 CardKS 是一个面向大规模组合动作空间与不完美信息卡牌博弈的统一长程决策框架。它基于一个关键观察：**一次动作不仅改变当前局面，也会重塑此后每一步决策的结构。**
@@ -56,10 +57,9 @@ CardKS 在合作博弈、非对称身份博弈和双人博弈中均达到 SOTA �
 | Gin Rummy | **RummyKS** | IRumAI | **58.37%** 方法胜率 |
 
 <p align="center">
-  <img src="assets/main-results.webp" alt="CardKS 在掼蛋、斗地主和 Gin Rummy 上的主要实验结果" width="720">
+  <a href="assets/main-results.webp"><img src="assets/main-results.webp" alt="CardKS 在掼蛋、斗地主和 Gin Rummy 上的主要实验结果" width="500"></a><br>
+  <sub><strong>表 1.</strong> 各游戏配对牌局、固定种子与身份交换协议下的主要对战结果。</sub>
 </p>
-
-<p align="center"><sub><strong>表 1.</strong> DanKS、DouKS 与 RummyKS 在各游戏配对牌局、固定种子与身份交换协议下的主要对战结果。</sub></p>
 
 这些结果展示了同一方法跨越三类不同交互结构的迁移能力：
 
@@ -70,10 +70,9 @@ CardKS 在合作博弈、非对称身份博弈和双人博弈中均达到 SOTA �
 ### 性能来自哪里？
 
 <p align="center">
-  <img src="assets/ablation-results.webp" alt="CardKS 在三个游戏上的消融实验结果" width="760">
+  <a href="assets/ablation-results.webp"><img src="assets/ablation-results.webp" alt="CardKS 在三个游戏上的消融实验结果" width="720"></a><br>
+  <sub><strong>表 2.</strong> 面对固定规则对手时的胜率。</sub>
 </p>
-
-<p align="center"><sub><strong>表 2.</strong> 面对固定规则对手时的胜率。</sub></p>
 
 完整 CardKS 分别领先确定性 **TopK-Top1** 选择器 **49.40**、**32.60** 和 **19.09** 个百分点。结构化召回负责集中高质量动作，学习型策略负责结合当前局面在候选动作中做出判断。
 
@@ -97,7 +96,8 @@ CardKS 在合作博弈、非对称身份博弈和双人博弈中均达到 SOTA �
 CardKS 能够学习以短期出牌数量交换未来控制权的决策：在一个轨迹中保留大对子并于后续夺回牌权；在另一个轨迹中主动 PASS，保护唯一可以取胜的木板组合。
 
 <p align="center">
-  <img src="assets/emergent-strategies.webp" alt="CardKS 重新获得牌权与保护木板结构的两个策略案例" width="920">
+  <a href="assets/emergent-strategies.webp"><img src="assets/emergent-strategies.webp" alt="CardKS 重新获得牌权与保护木板结构的两个策略案例" width="820"></a><br>
+  <sub><strong>策略案例。</strong> 保留牌权，并保护唯一可以取胜的木板延续。</sub>
 </p>
 
 这些策略由剩余结构建模与自博弈共同产生，使模型表示与人类可以理解的长程决策直接对应。

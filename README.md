@@ -29,7 +29,8 @@
 </p>
 
 <p align="center">
-  <img src="assets/cardks-framework.webp" alt="CardKS framework: information state, structured candidate ranker, Actor-Critic, and PPO self-play" width="100%">
+  <a href="assets/cardks-framework.webp"><img src="assets/cardks-framework.webp" alt="CardKS framework: information state, structured candidate ranker, Actor-Critic, and PPO self-play" width="960"></a><br>
+  <sub><strong>Framework.</strong> Information state, structure-aware retrieval, candidate-conditioned Actor-Critic, and PPO self-play.</sub>
 </p>
 
 CardKS is a unified framework for long-horizon decision-making in imperfect-information card games with large combinatorial action spaces. Its central observation is simple: **an action changes both the current position and the structure of every future decision**.
@@ -56,10 +57,9 @@ CardKS reaches state-of-the-art performance across cooperative, asymmetric-role,
 | Gin Rummy | **RummyKS** | IRumAI | **58.37%** method win rate |
 
 <p align="center">
-  <img src="assets/main-results.webp" alt="Main CardKS results for GuanDan, DouDizhu, and Gin Rummy" width="720">
+  <a href="assets/main-results.webp"><img src="assets/main-results.webp" alt="Main CardKS results for GuanDan, DouDizhu, and Gin Rummy" width="500"></a><br>
+  <sub><strong>Table 1.</strong> Head-to-head results under game-specific paired-deal, seed, and role-swapping protocols.</sub>
 </p>
-
-<p align="center"><sub><strong>Table 1.</strong> Head-to-head results for DanKS, DouKS, and RummyKS under game-specific paired-deal, seed, and role-swapping protocols.</sub></p>
 
 The results show one method transferring across three fundamentally different interaction structures:
 
@@ -70,10 +70,9 @@ The results show one method transferring across three fundamentally different in
 ### What drives the gain?
 
 <p align="center">
-  <img src="assets/ablation-results.webp" alt="CardKS ablation results across all three games" width="760">
+  <a href="assets/ablation-results.webp"><img src="assets/ablation-results.webp" alt="CardKS ablation results across all three games" width="720"></a><br>
+  <sub><strong>Table 2.</strong> Win rates against fixed rule-based opponents.</sub>
 </p>
-
-<p align="center"><sub><strong>Table 2.</strong> Win rates against fixed rule-based opponents.</sub></p>
 
 Full CardKS exceeds the deterministic **TopK-Top1** selector by **49.40**, **32.60**, and **19.09** percentage points in GuanDan, DouDizhu, and Gin Rummy. Structured retrieval concentrates strong actions; the learned policy supplies the state-dependent judgment needed to choose among them.
 
@@ -97,7 +96,8 @@ The structured ranker and learned policy solve complementary parts of the proble
 CardKS learns decisions that trade immediate card reduction for future control. In one trajectory it preserves a high pair and regains initiative later; in another it passes to protect the only winning pair-straight continuation.
 
 <p align="center">
-  <img src="assets/emergent-strategies.webp" alt="Two CardKS case studies showing initiative recovery and pair-straight preservation" width="920">
+  <a href="assets/emergent-strategies.webp"><img src="assets/emergent-strategies.webp" alt="Two CardKS case studies showing initiative recovery and pair-straight preservation" width="820"></a><br>
+  <sub><strong>Case studies.</strong> Preserving initiative and protecting the only winning pair-straight continuation.</sub>
 </p>
 
 These behaviors emerge from residual-structure modeling and self-play, connecting the model's representation directly to recognizable long-horizon strategy.
