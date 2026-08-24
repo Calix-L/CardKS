@@ -1,0 +1,14 @@
+KSCB/README.md
+  h_fd5f1e8b7a7f06 3,5,7-10,12,14,16,18-22,24,26,28,30-109,111-237
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.7",
+  "base_commit_sha": "9cbe07adc361d73871906e8dcd43b1cc09ce3e70",
+  "prompts": {},
+  "humans": {
+    "h_fd5f1e8b7a7f06": {
+      "author": "xuzhouzheng <xuzhouzheng@kingsoft.com>"
+    }
+  }
+}
