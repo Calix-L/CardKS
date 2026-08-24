@@ -61,7 +61,7 @@ Evaluation protocols, all numeric tables, Recall@K, language-model candidate exp
 | **DouKS** | DouDizhu agent | [Open `DouKS/` ↗](https://github.com/Calix-L/DouKS) · code forthcoming |
 | **RummyKS** | Gin Rummy agent | [Open `RummyKS/` ↗](https://github.com/Calix-L/RummyKS) · code forthcoming |
 | **KSPlay** | Shared simulation, self-play, and evaluation platform | [Open `KSPlay/`](./KSPlay) · forthcoming |
-| **KS Card Benchmark (KSCB)** | Source-derived deidentified human trajectories | [Open `KSCB/`](./KSCB) |
+| **KS Card Benchmark (KSCB)** | Human game-trajectory benchmark | [Open `KSCB/`](./KSCB) |
 
 The three agent directories are **Git submodules**. On GitHub, opening one jumps directly to its independent repository. KSPlay and KSCB live in this repository so the common platform and benchmark remain part of the paper-level project.
 
@@ -96,10 +96,6 @@ The learned policy can prefer non-greedy decisions without hard-coding the illus
 <p align="center">
   <img src="assets/emergent-strategies.webp" alt="Two CardKS case studies showing initiative recovery and pair-straight preservation" width="900">
 </p>
-
-## Release boundary
-
-This repository publishes the paper-facing overview, figures, reported tables, public code links, and the deidentified source-derived KSCB release. It does **not** publish manuscript sources, model weights, raw/private datasets, identity mappings, raw evaluation records, credentials, or deployment configuration.
 
 ## Citation
 

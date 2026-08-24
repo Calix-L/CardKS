@@ -61,7 +61,7 @@ CardKS 在三个不同游戏中分别采用适合该游戏的成对牌局、随�
 | **DouKS** | 斗地主智能体 | [打开 `DouKS/` ↗](https://github.com/Calix-L/DouKS) · 代码待发布 |
 | **RummyKS** | Gin Rummy 智能体 | [打开 `RummyKS/` ↗](https://github.com/Calix-L/RummyKS) · 代码待发布 |
 | **KSPlay** | 通用模拟、自博弈与评测平台 | [打开 `KSPlay/`](./KSPlay) · 待发布 |
-| **KS Card Benchmark（KSCB）** | 源数据直接筛选并脱敏的人类对局轨迹 | [打开 `KSCB/`](./KSCB) |
+| **KS Card Benchmark（KSCB）** | 人类对局轨迹基准 | [打开 `KSCB/`](./KSCB) |
 
 三个智能体目录采用 **Git submodule**。在 GitHub 上点击目录，会直接跳转到对应的独立仓库。KSPlay 与 KSCB 则保留在主仓库内，使通用平台和基准数据仍属于论文主项目。
 
@@ -96,10 +96,6 @@ DanKS 是首个已经开放的实现；它自己的 [README](https://github.com/
 <p align="center">
   <img src="assets/emergent-strategies.webp" alt="CardKS 重新获得牌权与保护木板结构的两个策略案例" width="900">
 </p>
-
-## 公开边界
-
-本仓库公开论文入口、插图、报告表格、公共代码链接，以及由源数据直接筛选的脱敏 KSCB 数据。仓库**不公开**论文源文件、模型权重、原始/私有数据、身份映射、原始评测记录、凭据或部署配置。
 
 ## 引用
 
