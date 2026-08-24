@@ -1,0 +1,25 @@
+KSCB/data/kscb_doudizhu_games_5pct.jsonl
+  s_806d8f4913ba0e::t_417273f4a56dab 1-47
+KSCB/data/kscb_guandan_promotion_matches_5pct.jsonl
+  s_806d8f4913ba0e::t_4abeb51fe688f7 1-44
+KSCB/data/kscb_guandan_replay_valid_rounds_5pct.jsonl
+  s_806d8f4913ba0e::t_89bdfdab2eb794 1-536
+KSCB/data/kscb_sample_manifest.json
+  s_806d8f4913ba0e::t_7efc24a509ee80 1-86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.7",
+  "base_commit_sha": "7a5c7759b015a74acab2fa013a9940e1f90daf39",
+  "prompts": {},
+  "sessions": {
+    "s_806d8f4913ba0e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a032a3-295f-7f11-a74e-6a744b090bae",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "xuzhouzheng <xuzhouzheng@kingsoft.com>"
+    }
+  }
+}
