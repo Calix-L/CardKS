@@ -17,15 +17,14 @@ After decompression, every line is an independent JSON object.
 
 ## Dataset Scale
 
-KSCB is reported at three trajectory levels.
+The table below reports the scale of the complete GuanDan promotion matches and DouDizhu games.
 
 | Game | Collection | Size | Decision Points | Decisions per Unit |
 | --- | --- | ---: | ---: | ---: |
 | GuanDan | Complete promotion matches | 899 matches / 10,218 internal rounds | 840,194 | 934.59 per match |
-| GuanDan | Replay-validated rounds | 10,738 rounds | 884,272 | 82.35 per round |
 | DouDizhu | Complete games | 947 games | 28,083 | 29.65 per game |
 
-The 899 complete GuanDan promotion matches contain 10,218 internal rounds. The promotion-match collection and the 10,738 replay-validated round collection represent different trajectory levels and are not added together.
+The 899 complete GuanDan promotion matches contain 10,218 internal rounds.
 
 ## GuanDan Data Format
 
