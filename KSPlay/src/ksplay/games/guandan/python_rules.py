@@ -22,10 +22,14 @@ SUIT_ORDER = {"S": 0, "H": 1, "C": 2, "D": 3}
 SPORTS_BUREAU_RULE_PROFILE = "sports_bureau"
 ARENA_CLIENT_RULE_PROFILE = "arena_client_pdf_v1"
 RULE_PROFILE_ENV = "KSPLAY_GUANDAN_RULE_PROFILE"
+TRAINING_RULE_PROFILE_ENV = "DAN_PLATFORM_RULE_PROFILE"
 
 
 def _rule_profile():
-    profile = os.environ.get(RULE_PROFILE_ENV, SPORTS_BUREAU_RULE_PROFILE).strip()
+    profile = os.environ.get(
+        RULE_PROFILE_ENV,
+        os.environ.get(TRAINING_RULE_PROFILE_ENV, SPORTS_BUREAU_RULE_PROFILE),
+    ).strip()
     if profile not in (SPORTS_BUREAU_RULE_PROFILE, ARENA_CLIENT_RULE_PROFILE):
         raise ValueError(f"unsupported GuanDan rule profile: {profile!r}")
     return profile

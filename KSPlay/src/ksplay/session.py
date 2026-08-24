@@ -72,7 +72,9 @@ class Session:
     def reset(self, players: list[str]) -> list[Any]:
         if len(players) != self.player_count:
             raise ValueError(f"{self.game} requires {self.player_count} players")
-        self.table = _make_table(self.game, self.seed, self.training_fast_path)
+        if self._started:
+            self.close()
+            self.table = _make_table(self.game, self.seed, self.training_fast_path)
         for seat, name in enumerate(players):
             self.table.add_player(str(name), seat)
         self._started = True
@@ -81,6 +83,12 @@ class Session:
     def step(self, seat: int, action_index: int) -> list[Any]:
         if not self._started:
             raise RuntimeError("reset() must be called before step()")
+        if self.training_fast_path:
+            if self.game == "guandan":
+                return self._advance_guandan(self.table.loop({"actIndex": action_index}))
+            if self.game == "gin-rummy":
+                return self.table.training_action(seat, action_index)
+            return self.table.action(seat, action_index)
         if not isinstance(action_index, int) or isinstance(action_index, bool):
             raise ValueError("action_index must be an integer")
         if action_index < 0 or action_index >= len(self.legal_actions):
@@ -91,8 +99,6 @@ class Session:
                 raise ValueError("seat cannot act now")
             messages = self.table.loop(payload)
             return self._advance_guandan(messages)
-        if self.game == "gin-rummy" and self.training_fast_path:
-            return self.table.training_action(seat, action_index)
         return self.table.action(seat, action_index)
 
     def _advance_guandan(self, messages: list[Any]) -> list[Any]:

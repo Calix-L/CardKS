@@ -38,6 +38,20 @@ while game.table.results is None:
 `training_fast_path=True` keeps the rollout loop in process and avoids socket,
 JSON, and trace-copying overhead.
 
+### Training fast path
+
+Use one in-process session per rollout worker:
+
+```python
+game = ksplay.make("guandan", seed=worker_seed, training_fast_path=True)
+```
+
+This is the same engine configuration used by the training path: step-back is
+disabled, Gin Rummy trace recording is disabled, DouDizhu and Gin Rummy reuse
+read-only action/wire values, and trusted action indices go directly to the
+active engine handler. Keep `ksplay serve` for interactive rooms; rollout
+workers should call `Session.step()` directly.
+
 ## Multiplayer service
 
 One server hosts all three games:

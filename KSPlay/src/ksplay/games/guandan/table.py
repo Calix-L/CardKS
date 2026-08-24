@@ -3,7 +3,7 @@
 import copy
 import logging
 from copy import deepcopy
-from random import Random
+import random
 
 from .types import (
     Card, Phase, Move, Msg, Trick, Undo, Player, Wire, Finish,
@@ -35,7 +35,7 @@ class Table:
 
         self.deck_data = deck_data
         self.first_player = first_player
-        self._rng = Random(seed)
+        self._rng = random if seed is None else random.Random(seed)
 
         if self.deck_data is None:
             for i in range(2):

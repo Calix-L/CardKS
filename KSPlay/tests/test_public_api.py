@@ -47,3 +47,30 @@ def test_doudizhu_exposes_each_simultaneous_double_seat() -> None:
     first_defender = session.current_seat
     session.step(first_defender, 0)
     assert session.current_seat != first_defender
+
+
+@pytest.mark.parametrize("game", ["guandan", "doudizhu", "gin-rummy"])
+def test_first_reset_reuses_the_prepared_engine(game: str) -> None:
+    session = ksplay.make(game, seed=7, training_fast_path=True)
+    prepared = session.table
+
+    session.reset({
+        "guandan": ["a", "b", "c", "d"],
+        "doudizhu": ["a", "b", "c"],
+        "gin-rummy": ["a", "b"],
+    }[game])
+
+    assert session.table is prepared
+
+
+def test_training_mode_reaches_each_engine_without_trace_or_copy_features() -> None:
+    guandan = ksplay.make("guandan", training_fast_path=True)
+    doudizhu = ksplay.make("doudizhu", training_fast_path=True)
+    rummy = ksplay.make("gin-rummy", training_fast_path=True)
+
+    assert guandan.table.allow_step_back is False
+    assert doudizhu.table.allow_step_back is False
+    assert doudizhu.table.training_fast_path is True
+    assert rummy.table.allow_step_back is False
+    assert rummy.table.record_trace is False
+    assert rummy.table.training_fast_path is True

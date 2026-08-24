@@ -49,7 +49,11 @@ def main(argv: list[str] | None = None) -> int:
     report = {}
     for game in games:
         steps, elapsed = _run_game(game)
-        report[game] = {"steps": steps, "seconds": round(elapsed, 4)}
+        report[game] = {
+            "steps": steps,
+            "seconds": round(elapsed, 4),
+            "steps_per_second": round(steps / max(elapsed, 1e-9), 1),
+        }
     print(json.dumps(report, indent=2))
     return 0
 
