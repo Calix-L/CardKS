@@ -1,0 +1,2 @@
+include LICENSE NOTICE RLCard-MIT.md
+recursive-include src/ksplay/native/guandan-go *.go go.mod

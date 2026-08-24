@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ksplay"
+version = "0.1.0"
+description = "Fast, unified game environments for GuanDan, DouDizhu, and Gin Rummy."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "RLCard-MIT.md"]
+authors = [{name = "CardKS Authors"}]
+dependencies = ["numpy>=1.24", "websockets>=13,<16"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+]
+
+[project.optional-dependencies]
+dev = ["build>=1.2", "pytest>=8", "pytest-asyncio>=0.23"]
+
+[project.scripts]
+ksplay = "ksplay.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+ksplay = ["native/guandan-go/**/*.go", "native/guandan-go/go.mod"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
