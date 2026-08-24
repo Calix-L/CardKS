@@ -9,41 +9,65 @@
 </p>
 
 <p align="center">
-  面向掼蛋、斗地主与 Gin Rummy 的统一框架
+  一套结构化决策框架 · 三种不完美信息卡牌游戏 · SOTA 级表现
 </p>
 
 <p align="center">
+  <a href="#一篇论文三项贡献">论文贡献</a> ·
   <a href="#主要结果">主要结果</a> ·
-  <a href="#代码与资源">代码与资源</a> ·
+  <a href="#cardks-如何工作">方法</a> ·
+  <a href="#研究体系">研究体系</a> ·
   <a href="RESULTS.md">完整表格</a> ·
   <a href="#引用">引用</a>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img alt="Apache-2.0 许可证" src="https://img.shields.io/badge/license-Apache--2.0-D22128"></a>
-  <img alt="三个卡牌游戏" src="https://img.shields.io/badge/card_games-3-5865F2">
-  <img alt="论文状态" src="https://img.shields.io/badge/paper-coming_soon-1F9D72">
+  <img alt="三个游戏达到 SOTA" src="https://img.shields.io/badge/SOTA-3_card_games-5865F2">
+  <img alt="Top-5 专家动作召回率" src="https://img.shields.io/badge/Top--5_recall-93.09%25%E2%80%9395.00%25-1F9D72">
+  <img alt="KSPlay 吞吐提升" src="https://img.shields.io/badge/KSPlay-up_to_2.10%C3%97-F59E0B">
 </p>
 
 <p align="center">
   <img src="assets/cardks-framework.webp" alt="CardKS 的信息状态、结构化候选召回、Actor-Critic 与 PPO 自博弈框架" width="100%">
 </p>
 
-CardKS 是一个面向大规模组合式动作空间与不完美信息卡牌博弈的统一长程决策框架。它依据动作执行后**剩余手牌中保留的关键结构**评价合法动作，召回紧凑的 Top-K 候选集合，再由候选条件化 Actor-Critic 通过 PPO 自博弈学习依赖局面的最终选择。
+CardKS 是一个面向大规模组合动作空间与不完美信息卡牌博弈的统一长程决策框架。它基于一个关键观察：**一次动作不仅改变当前局面，也会重塑此后每一步决策的结构。**
 
-> **一句话概括：** 先召回能够保留未来选择的动作，再学习每个选择应当在什么局面使用。
+CardKS 根据动作执行后剩余手牌保留的关键结构评价合法动作，召回紧凑且多样的 Top-K 候选集合，再由候选条件化 Actor-Critic 通过 PPO 自博弈学习依赖局面的最终选择。同一套方法分别构成掼蛋智能体 **DanKS**、斗地主智能体 **DouKS** 和 Gin Rummy 智能体 **RummyKS**。
+
+> **召回能够保留未来选择的动作，再学习每个选择在何时产生长期价值。**
+
+## 一篇论文，三项贡献
+
+| **CardKS · 决策框架** | **KSCB · 人类基准** | **KSPlay · 高性能平台** |
+| --- | --- | --- |
+| 结构感知候选召回与候选条件化 Actor-Critic 学习 | 首个同时覆盖掼蛋与斗地主的专家级基准 | 规则即代码、并行模拟、分布式评测、自博弈与在线推理 |
+| 三个游戏均达到 SOTA，Top-5 专家动作召回率达 93.09%–95.00% | 经回放验证的轨迹支持学习、评测与候选分析 | 32 环境吞吐最高提升 2.10×，完整决策保持毫秒级 |
 
 ## 主要结果
 
-CardKS 在三个不同游戏中分别采用适合该游戏的成对牌局、随机种子和身份交换协议。下表完整展示了对学习式、搜索式、规则式与语言模型基线的主要对战结果。
+CardKS 在合作博弈、非对称身份博弈和双人博弈中均达到 SOTA 级表现。
+
+| 游戏 | CardKS 智能体 | 代表性对手 | 直接对战结果 |
+| --- | --- | --- | ---: |
+| 掼蛋 | **DanKS** | DanZero | **71.50%** 大局胜率 |
+| 斗地主 | **DouKS** | DouZero | **54.00%** 胜率 |
+| Gin Rummy | **RummyKS** | IRumAI | **58.37%** 方法胜率 |
 
 <p align="center">
-  <img src="assets/main-results.webp" alt="CardKS 在掼蛋、斗地主和 Gin Rummy 上的主要实验结果" width="680">
+  <img src="assets/main-results.webp" alt="CardKS 在掼蛋、斗地主和 Gin Rummy 上的主要实验结果" width="720">
 </p>
 
-<p align="center"><sub><strong>表 1.</strong> DanKS、DouKS 与 RummyKS 的主要结果；各游戏指标按各自协议定义。</sub></p>
+<p align="center"><sub><strong>表 1.</strong> DanKS、DouKS 与 RummyKS 在各游戏配对牌局、固定种子与身份交换协议下的主要对战结果。</sub></p>
 
-消融实验分别验证了结构化召回、剩余手牌建模和学习式策略的作用。完整 CardKS 在三个游戏中均显著优于固定 Top-K 选择与移除结构的变体。
+这些结果展示了同一方法跨越三类不同交互结构的迁移能力：
+
+- **掼蛋：** 四人组队、隐藏手牌、队友协作与完整晋级赛结果。
+- **斗地主：** 地主与农民身份非对称，并具有身份相关的策略目标。
+- **Gin Rummy：** 双人序贯博弈，核心涉及组合保留、Knock 时机与终局收益。
+
+### 性能来自哪里？
 
 <p align="center">
   <img src="assets/ablation-results.webp" alt="CardKS 在三个游戏上的消融实验结果" width="760">
@@ -51,56 +75,82 @@ CardKS 在三个不同游戏中分别采用适合该游戏的成对牌局、随�
 
 <p align="center"><sub><strong>表 2.</strong> 面对固定规则对手时的胜率。</sub></p>
 
-评测协议、全部数值表格、Recall@K、语言模型候选集实验、效率测量和数据集统计集中在 [**RESULTS.md**](RESULTS.md)。
+完整 CardKS 分别领先确定性 **TopK-Top1** 选择器 **49.40**、**32.60** 和 **19.09** 个百分点。结构化召回负责集中高质量动作，学习型策略负责结合当前局面在候选动作中做出判断。
 
-## 代码与资源
+三个候选排序器在 Top-5 时保留 **93.09%–95.00%** 的专家等价动作，在 Top-10 时达到 **97.30%–100.00%**。这一紧凑决策接口既服务于 PPO 策略，也能提升语言模型的动作选择质量。
 
-| 组件 | 内容 | 位置 |
+全部评测协议、逐对手结果、候选 Recall@K、语言模型实验、效率测量与实现配置见 [**RESULTS.md**](RESULTS.md)。
+
+## CardKS 如何工作
+
+| 阶段 | 核心操作 | 作用 |
 | --- | --- | --- |
-| **DanKS** | 掼蛋智能体与 PPO 训练实现 | [打开 `DanKS/` ↗](https://github.com/Calix-L/DanKS) |
-| **DouKS** | 斗地主智能体 | [打开 `DouKS/` ↗](https://github.com/Calix-L/DouKS) · 代码待发布 |
-| **RummyKS** | Gin Rummy 智能体 | [打开 `RummyKS/` ↗](https://github.com/Calix-L/RummyKS) · 代码待发布 |
-| **KSPlay** | 通用模拟、自博弈与评测平台 | [打开 `KSPlay/`](./KSPlay) · 待发布 |
-| **KS Card Benchmark（KSCB）** | 人类对局轨迹基准 | [打开 `KSCB/`](./KSCB) |
+| **1 · 观察** | 编码可见手牌、公共历史、座位上下文与合法动作。 | 构建当前行动玩家的信息状态。 |
+| **2 · 召回** | 执行每个动作，搜索剩余手牌的合法拆解。 | 显式表达对子、序列、花色、缺口与未来动作结构。 |
+| **3 · 选择** | 联合编码状态、候选动作和剩余结构摘要。 | Actor 对紧凑 Top-K 集合排序，Critic 估计长期价值。 |
+| **4 · 学习** | 使用 PPO、GAE 与在线自博弈优化候选策略。 | 为数步之后才体现收益的结构选择分配信用。 |
 
-三个智能体目录采用 **Git submodule**。在 GitHub 上点击目录，会直接跳转到对应的独立仓库。KSPlay 与 KSCB 则保留在主仓库内，使通用平台和基准数据仍属于论文主项目。
+结构化排序器与学习型策略承担互补职责：召回阶段先构建高质量策略支持集，Actor-Critic 再根据当前信息状态动态调整候选优先级。
 
-克隆主仓库及当前已经开放的智能体代码：
+## 涌现的长程策略
+
+CardKS 能够学习以短期出牌数量交换未来控制权的决策：在一个轨迹中保留大对子并于后续夺回牌权；在另一个轨迹中主动 PASS，保护唯一可以取胜的木板组合。
+
+<p align="center">
+  <img src="assets/emergent-strategies.webp" alt="CardKS 重新获得牌权与保护木板结构的两个策略案例" width="920">
+</p>
+
+这些策略由剩余结构建模与自博弈共同产生，使模型表示与人类可以理解的长程决策直接对应。
+
+## 研究体系
+
+CardKS 是整套论文研究体系的统一入口：
+
+| 项目 | 在论文中的作用 | 仓库 |
+| --- | --- | --- |
+| **DanKS** | 掼蛋智能体，包含三代召回与 PPO 完整实现 | [Calix-L/DanKS ↗](https://github.com/Calix-L/DanKS) |
+| **DouKS** | 斗地主智能体，建模地主与农民身份策略 | [Calix-L/DouKS ↗](https://github.com/Calix-L/DouKS) |
+| **RummyKS** | Gin Rummy 智能体，建模剩余组合结构 | [Calix-L/RummyKS ↗](https://github.com/Calix-L/RummyKS) |
+| **KSPlay** | 通用规则、模拟、自博弈与评测平台 | [打开 KSPlay](./KSPlay) |
+| **KS Card Benchmark** | 掼蛋与斗地主的人类回放验证轨迹 | [打开 KSCB](./KSCB) |
+| **CardKS 实验结果** | 协议、完整表格、消融、召回与效率 | [打开 RESULTS.md](RESULTS.md) |
+
+三个游戏智能体通过 Git submodule 连接，在 CardKS 项目树中点击目录即可进入各自的独立仓库。KSPlay 与 KSCB 作为跨游戏共享资源，直接位于论文主仓库中。
+
+### KSPlay：跨游戏统一平台
+
+KSPlay 统一规则执行、并行模拟、分布式策略评测、高吞吐自博弈与在线推理。在 32 个并行环境下，它在掼蛋、斗地主和 Gin Rummy 上分别达到参考环境 **1.31×**、**2.10×** 和 **1.31×** 的吞吐量；CardKS 在三个游戏中的完整决策延迟均低于 **2.26 ms**。
+
+### KSCB：游戏规模的人类决策数据
+
+公开的 KS Card Benchmark 目前包含 **1,305 场完整掼蛋晋级赛、覆盖 14,823 小局**，以及 **947 场完整斗地主对局**。每条轨迹使用紧凑的 JSONL 格式保存有序事件与终局结果，可用于模仿学习、离线强化学习、候选覆盖率分析和策略评测。
+
+## 快速开始
+
+克隆论文主仓库与三个游戏智能体：
 
 ```bash
 git clone --recursive https://github.com/Calix-L/CardKS.git
 cd CardKS
 ```
 
-如果克隆时没有使用 `--recursive`：
+已有仓库可通过下面的命令初始化项目仓库：
 
 ```bash
 git submodule update --init --recursive
 ```
 
-DanKS 是首个已经开放的实现；它自己的 [README](https://github.com/Calix-L/DanKS#readme) 包含环境构建、示例、测试和 PPO 训练说明。
+根据研究目标选择入口：
 
-## 方法概览
-
-| 阶段 | 操作 |
-| --- | --- |
-| **1 · 观察** | 编码当前玩家可见手牌、公共历史、座位关系与合法动作。 |
-| **2 · 召回** | 执行每个动作、分解剩余手牌，并概括其未来组合结构。 |
-| **3 · 选择** | 使用候选条件化 Actor-Critic 对紧凑 Top-K 支持集评分。 |
-| **4 · 学习** | 通过 PPO、GAE 与自博弈优化长程决策。 |
-
-## 涌现的长程策略
-
-模型能够在没有硬编码图中轨迹的情况下学习非贪心决策：保留较大的对子可能在后续重新获得牌权，而主动 PASS 可以保住唯一能赢的木板组合。
-
-<p align="center">
-  <img src="assets/emergent-strategies.webp" alt="CardKS 重新获得牌权与保护木板结构的两个策略案例" width="900">
-</p>
+- 通过 [DanKS 使用指南](https://github.com/Calix-L/DanKS#readme)构建和训练掼蛋智能体。
+- 在 [RESULTS.md](RESULTS.md) 查看完整实验协议与数值。
+- 在 [KSCB 数据指南](./KSCB/README.md)查看人类对局轨迹。
+- 在 [KSPlay](./KSPlay/README.md)了解跨游戏模拟平台。
 
 ## 引用
 
-正式论文链接、作者、会议或期刊、DOI、arXiv 编号与 BibTeX 会在出版信息确定后补充。当前 [`CITATION.cff`](CITATION.cff) 只标识项目，不编造临时出版信息。
+可使用 GitHub 的 **Cite this repository** 功能或项目 [`CITATION.cff`](CITATION.cff) 引用 CardKS。论文正式发布信息将同步更新在该文件中。
 
 ## 许可证
 
-本仓库代码与文档采用 [Apache License 2.0](LICENSE)。模型权重、数据集、游戏资源及独立发布仓库可能采用不同许可条款。
+CardKS 代码与文档采用 [Apache License 2.0](LICENSE)。各组件仓库与数据集使用各自的发布许可。

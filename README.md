@@ -9,41 +9,65 @@
 </p>
 
 <p align="center">
-  A unified framework for GuanDan, DouDizhu, and Gin Rummy
+  One structural decision framework · Three imperfect-information card games · State-of-the-art performance
 </p>
 
 <p align="center">
+  <a href="#one-paper-three-contributions">Contributions</a> ·
   <a href="#main-results">Results</a> ·
-  <a href="#code-and-resources">Code & Resources</a> ·
-  <a href="RESULTS.md">Full Tables</a> ·
+  <a href="#how-cardks-works">Method</a> ·
+  <a href="#research-suite">Research suite</a> ·
+  <a href="RESULTS.md">Full tables</a> ·
   <a href="#citation">Citation</a>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img alt="Apache-2.0 license" src="https://img.shields.io/badge/license-Apache--2.0-D22128"></a>
-  <img alt="Three card games" src="https://img.shields.io/badge/card_games-3-5865F2">
-  <img alt="Paper status" src="https://img.shields.io/badge/paper-coming_soon-1F9D72">
+  <img alt="State of the art across three games" src="https://img.shields.io/badge/SOTA-3_card_games-5865F2">
+  <img alt="Top-5 expert action recall" src="https://img.shields.io/badge/Top--5_recall-93.09%25%E2%80%9395.00%25-1F9D72">
+  <img alt="KSPlay throughput speedup" src="https://img.shields.io/badge/KSPlay-up_to_2.10%C3%97-F59E0B">
 </p>
 
 <p align="center">
   <img src="assets/cardks-framework.webp" alt="CardKS framework: information state, structured candidate ranker, Actor-Critic, and PPO self-play" width="100%">
 </p>
 
-CardKS is a unified framework for long-horizon decision-making in imperfect-information card games with large combinatorial action spaces. It evaluates each action by the **key structures preserved in the residual hand**, retrieves a compact Top-K candidate set, and learns context-dependent selection with a candidate-conditioned Actor-Critic trained by PPO self-play.
+CardKS is a unified framework for long-horizon decision-making in imperfect-information card games with large combinatorial action spaces. Its central observation is simple: **an action changes both the current position and the structure of every future decision**.
 
-> **In one sentence:** retrieve actions that preserve future options, then learn when each option matters.
+CardKS evaluates legal actions through the key structures they preserve in the residual hand, retrieves a compact and diverse Top-K candidate set, and learns context-dependent selection with a candidate-conditioned Actor-Critic trained by PPO self-play. The same design powers **DanKS** for GuanDan, **DouKS** for DouDizhu, and **RummyKS** for Gin Rummy.
+
+> **Retrieve actions that preserve future options. Learn when each option creates long-term value.**
+
+## One paper, three contributions
+
+| **CardKS · Decision framework** | **KSCB · Human benchmark** | **KSPlay · Scalable platform** |
+| --- | --- | --- |
+| Structure-aware candidate retrieval and candidate-conditioned Actor-Critic learning | The first expert-level benchmark spanning both GuanDan and DouDizhu | Rules-as-code, parallel simulation, distributed evaluation, self-play, and online inference |
+| SOTA results across all three games with 93.09%–95.00% Top-5 expert-action recall | Replay-validated trajectories for learning, evaluation, and candidate analysis | Up to 2.10× higher 32-environment throughput with low-millisecond decisions |
 
 ## Main results
 
-CardKS is evaluated in three distinct games under game-specific paired-deal, seed, and role-swapping protocols. The first table reports the complete head-to-head results against learning, search, rule-based, and language-model baselines.
+CardKS reaches state-of-the-art performance across cooperative, asymmetric-role, and two-player card games.
+
+| Game | CardKS agent | Representative opponent | Head-to-head result |
+| --- | --- | --- | ---: |
+| GuanDan | **DanKS** | DanZero | **71.50%** game win rate |
+| DouDizhu | **DouKS** | DouZero | **54.00%** win rate |
+| Gin Rummy | **RummyKS** | IRumAI | **58.37%** method win rate |
 
 <p align="center">
-  <img src="assets/main-results.webp" alt="Main CardKS results for GuanDan, DouDizhu, and Gin Rummy" width="680">
+  <img src="assets/main-results.webp" alt="Main CardKS results for GuanDan, DouDizhu, and Gin Rummy" width="720">
 </p>
 
-<p align="center"><sub><strong>Table 1.</strong> Main results for DanKS, DouKS, and RummyKS. Metrics are defined independently for each game.</sub></p>
+<p align="center"><sub><strong>Table 1.</strong> Head-to-head results for DanKS, DouKS, and RummyKS under game-specific paired-deal, seed, and role-swapping protocols.</sub></p>
 
-The ablation study separates the contribution of structured retrieval, residual-hand modeling, and the learned policy. Full CardKS consistently outperforms fixed Top-K selection and structure-removed variants.
+The results show one method transferring across three fundamentally different interaction structures:
+
+- **GuanDan:** four-player partnership play with cooperation, hidden hands, and promotion-match outcomes.
+- **DouDizhu:** asymmetric Landlord and Peasant roles with role-dependent objectives.
+- **Gin Rummy:** two-player sequential play with meld preservation, knock timing, and payoff-sensitive endings.
+
+### What drives the gain?
 
 <p align="center">
   <img src="assets/ablation-results.webp" alt="CardKS ablation results across all three games" width="760">
@@ -51,56 +75,82 @@ The ablation study separates the contribution of structured retrieval, residual-
 
 <p align="center"><sub><strong>Table 2.</strong> Win rates against fixed rule-based opponents.</sub></p>
 
-Evaluation protocols, all numeric tables, Recall@K, language-model candidate experiments, efficiency measurements, and dataset statistics are collected in [**RESULTS.md**](RESULTS.md).
+Full CardKS exceeds the deterministic **TopK-Top1** selector by **49.40**, **32.60**, and **19.09** percentage points in GuanDan, DouDizhu, and Gin Rummy. Structured retrieval concentrates strong actions; the learned policy supplies the state-dependent judgment needed to choose among them.
 
-## Code and resources
+The candidate rankers retain **93.09%–95.00%** of expert-equivalent actions at Top-5 and **97.30%–100.00%** at Top-10. This creates a compact decision interface that works for PPO policies and also improves language-model action selection.
 
-| Component | What it contains | Location |
+All protocols, per-opponent results, candidate Recall@K, language-model experiments, efficiency measurements, and implementation settings are available in [**RESULTS.md**](RESULTS.md).
+
+## How CardKS works
+
+| Stage | Core operation | Why it matters |
 | --- | --- | --- |
-| **DanKS** | GuanDan agent and PPO training implementation | [Open `DanKS/` ↗](https://github.com/Calix-L/DanKS) |
-| **DouKS** | DouDizhu agent | [Open `DouKS/` ↗](https://github.com/Calix-L/DouKS) · code forthcoming |
-| **RummyKS** | Gin Rummy agent | [Open `RummyKS/` ↗](https://github.com/Calix-L/RummyKS) · code forthcoming |
-| **KSPlay** | Shared simulation, self-play, and evaluation platform | [Open `KSPlay/`](./KSPlay) · forthcoming |
-| **KS Card Benchmark (KSCB)** | Human game-trajectory benchmark | [Open `KSCB/`](./KSCB) |
+| **1 · Observe** | Encode the visible hand, public history, seat context, and legal actions. | Builds the acting player's information state. |
+| **2 · Retrieve** | Apply each action and search legal decompositions of the residual hand. | Exposes pairs, sequences, suits, gaps, and future action structure. |
+| **3 · Select** | Jointly encode state, candidate action, and residual-structure summary. | Lets the Actor rank a compact Top-K set while the Critic estimates long-term value. |
+| **4 · Learn** | Optimize the candidate policy with PPO, GAE, and online self-play. | Assigns credit to structural choices whose payoff appears several decisions later. |
 
-The three agent directories are **Git submodules**. On GitHub, opening one jumps directly to its independent repository. KSPlay and KSCB live in this repository so the common platform and benchmark remain part of the paper-level project.
+The structured ranker and learned policy solve complementary parts of the problem. Retrieval preserves a high-quality support set before policy optimization; the Actor-Critic then adapts candidate priorities to the current information state.
 
-Clone the complete project, including all currently available agent code, with:
+## Emergent long-horizon strategies
+
+CardKS learns decisions that trade immediate card reduction for future control. In one trajectory it preserves a high pair and regains initiative later; in another it passes to protect the only winning pair-straight continuation.
+
+<p align="center">
+  <img src="assets/emergent-strategies.webp" alt="Two CardKS case studies showing initiative recovery and pair-straight preservation" width="920">
+</p>
+
+These behaviors emerge from residual-structure modeling and self-play, connecting the model's representation directly to recognizable long-horizon strategy.
+
+## Research suite
+
+CardKS is the paper-level home for a six-part research suite:
+
+| Project | Role in the paper | Repository |
+| --- | --- | --- |
+| **DanKS** | GuanDan agent, three generations of retrieval and PPO implementation | [Calix-L/DanKS ↗](https://github.com/Calix-L/DanKS) |
+| **DouKS** | DouDizhu agent with Landlord- and Peasant-aware policies | [Calix-L/DouKS ↗](https://github.com/Calix-L/DouKS) |
+| **RummyKS** | Gin Rummy agent with residual meld-structure modeling | [Calix-L/RummyKS ↗](https://github.com/Calix-L/RummyKS) |
+| **KSPlay** | Shared rules, simulation, self-play, and evaluation platform | [Open KSPlay](./KSPlay) |
+| **KS Card Benchmark** | Replay-validated human trajectories for GuanDan and DouDizhu | [Open KSCB](./KSCB) |
+| **CardKS results** | Protocols, full tables, ablations, recall, and efficiency | [Open RESULTS.md](RESULTS.md) |
+
+The three game agents are linked as Git submodules, so each directory opens its independent repository directly from the CardKS project tree. KSPlay and KSCB live alongside the paper overview as shared cross-game resources.
+
+### KSPlay: one platform across games
+
+KSPlay unifies rule execution, parallel simulation, distributed policy evaluation, high-throughput self-play, and online inference. At 32 parallel environments, it reaches **1.31×**, **2.10×**, and **1.31×** the reference throughput in GuanDan, DouDizhu, and Gin Rummy. CardKS end-to-end decisions remain below **2.26 ms** across all three games.
+
+### KSCB: human decisions at game scale
+
+The public KS Card Benchmark currently contains **1,305 complete GuanDan promotion matches spanning 14,823 rounds** and **947 complete DouDizhu games**. Every trajectory follows a compact JSONL schema with ordered events and terminal outcomes, supporting imitation learning, offline reinforcement learning, candidate-coverage analysis, and policy evaluation.
+
+## Get started
+
+Clone the paper hub and all three agent repositories:
 
 ```bash
 git clone --recursive https://github.com/Calix-L/CardKS.git
 cd CardKS
 ```
 
-If the repository was cloned without `--recursive`:
+For an existing clone, initialize the project repositories with:
 
 ```bash
 git submodule update --init --recursive
 ```
 
-DanKS is the first available implementation; its own [README](https://github.com/Calix-L/DanKS#readme) contains environment setup, examples, tests, and PPO training instructions.
+Start with the component that matches your research goal:
 
-## Method at a glance
-
-| Stage | Operation |
-| --- | --- |
-| **1 · Observe** | Encode the acting player's visible hand, public history, seat context, and legal actions. |
-| **2 · Retrieve** | Apply each action, decompose the residual hand, and summarize its future structures. |
-| **3 · Select** | Score the compact Top-K support with a candidate-conditioned Actor-Critic. |
-| **4 · Learn** | Optimize long-horizon choices through PPO, GAE, and self-play. |
-
-## Emergent long-horizon behavior
-
-The learned policy can prefer non-greedy decisions without hard-coding the illustrated trajectories: preserving a high pair may recover initiative later, while passing can retain the only winning pair-straight continuation.
-
-<p align="center">
-  <img src="assets/emergent-strategies.webp" alt="Two CardKS case studies showing initiative recovery and pair-straight preservation" width="900">
-</p>
+- Build and train a GuanDan agent with the [DanKS guide](https://github.com/Calix-L/DanKS#readme).
+- Explore complete experimental protocols and numbers in [RESULTS.md](RESULTS.md).
+- Inspect human trajectories in the [KSCB data guide](./KSCB/README.md).
+- Follow the shared simulation platform in [KSPlay](./KSPlay/README.md).
 
 ## Citation
 
-The final paper link, authors, venue, DOI, arXiv identifier, and BibTeX will be added once the publication record is ready. Until then, [`CITATION.cff`](CITATION.cff) identifies the project without inventing publication metadata.
+Use GitHub's **Cite this repository** action or the project [`CITATION.cff`](CITATION.cff) to cite CardKS. Publication metadata will be updated there with the paper record.
 
 ## License
 
-Code and documentation in this repository are released under the [Apache License 2.0](LICENSE). Model weights, datasets, game assets, and independently released repositories may use different terms.
+CardKS code and documentation are available under the [Apache License 2.0](LICENSE). Component repositories and datasets carry their own release terms.
